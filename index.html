@@ -1,1 +1,293 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRJH Thespian Points Dashboard</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background:
+        linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2)),
+        url("https://lh3.googleusercontent.com/d/1_M6FJumgMnvnR7tCXksmEPtXcOJu4_Gn")
+        center / cover fixed no-repeat;
+      background-color: #B22222;
+      margin: 0;
+      padding: 25px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      background: rgba(255,255,255,.94);
+      border-radius: 30px;
+      box-shadow: 0 15px 50px rgba(0,0,0,.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: #9c1f1f;
+      color: white;
+      padding: 25px 30px;
+    }
+
+    .header h1 { margin: 0; }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      background: #f1f3f4;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tab-button {
+      flex: 1 1 150px;
+      padding: 16px 10px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+    }
+
+    .tab-button:hover { background: #e8eaed; }
+
+    .tab-button.active {
+      background: white;
+      font-weight: bold;
+      border-bottom: 3px solid #9c1f1f;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 28px;
+      min-height: 300px;
+    }
+
+    .tab-content.active { display: block; }
+
+    h2 { color: #9c1f1f; }
+
+    .notice {
+      padding: 18px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      margin: 16px 0;
+      line-height: 1.6;
+    }
+
+    .announcement-box {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      line-height: 1.6;
+      box-shadow: 0 4px 12px rgba(0,0,0,.07);
+    }
+
+    .announcement-box h3 { color: #9c1f1f; }
+
+    input {
+      width: 100%;
+      max-width: 450px;
+      padding: 12px;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .primary-button {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 20px;
+      background: #9c1f1f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    iframe {
+      width: 100%;
+      min-height: 750px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th { background: #f2f2f2; }
+
+    footer {
+      padding: 16px;
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .header { padding: 20px; }
+      .header h1 { font-size: 24px; }
+      .tab-content { padding: 18px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <header class="header">
+    <h1>CRJH Thespian Points Dashboard 26-27</h1>
+  </header>
+
+  <nav class="tabs" aria-label="Dashboard tabs">
+    <button class="tab-button active"
+      onclick="openTab('announcementsTab', this)">
+      Announcements
+    </button>
+
+    <button class="tab-button"
+      onclick="openTab('pointsTab', this)">
+      Current Points
+    </button>
+
+    <button class="tab-button"
+      onclick="openTab('leaderboardTab', this)">
+      Leaderboard
+    </button>
+
+    <button class="tab-button"
+      onclick="openTab('formTab', this)">
+      Submit Points
+    </button>
+
+    <button class="tab-button"
+      onclick="openTab('amountsTab', this)">
+      Point Amounts
+    </button>
+  </nav>
+
+  <main>
+    <section id="announcementsTab" class="tab-content active">
+      <h2>Announcements</h2>
+      <div id="announcementsContainer">
+        <div class="notice">
+          Announcements will appear here once the data connection
+          is configured.
+        </div>
+      </div>
+    </section>
+
+    <section id="pointsTab" class="tab-content">
+      <h2>My Thespian Points</h2>
+      <p>Enter your Katy ISD student email.</p>
+
+      <input
+        id="studentEmail"
+        type="email"
+        placeholder="student@students.katyisd.org"
+        autocomplete="email"
+      >
+
+      <br>
+
+      <button class="primary-button" onclick="lookupPoints()">
+        Look Up My Points
+      </button>
+
+      <div id="studentResults" aria-live="polite">
+        <p>Your approved submissions will appear here when the
+        secure data connection is ready.</p>
+      </div>
+    </section>
+
+    <section id="leaderboardTab" class="tab-content">
+      <h2>Leaderboard</h2>
+      <div id="leaderboard">
+        <p>The leaderboard will appear here once connected.</p>
+      </div>
+    </section>
+
+    <section id="formTab" class="tab-content">
+      <h2>Submit Points</h2>
+      <p>Use the form below to submit your Thespian points.</p>
+
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfYWRN6G0Ja1ZHAjZZDIt2xjw1TFvdoKk8-J9urJ8EwWzOhEQ/viewform?embedded=true"
+        title="Thespian Points Submission Form"
+        loading="lazy">
+      </iframe>
+    </section>
+
+    <section id="amountsTab" class="tab-content">
+      <h2>Point Amounts</h2>
+
+      <iframe
+        src="https://drive.google.com/file/d/11UYexTNbnwyE7YjBRHZUHic1jSXtZHqF/preview"
+        title="Thespian Point Amounts"
+        loading="lazy">
+      </iframe>
+    </section>
+  </main>
+
+  <footer>
+    CRJH Thespian Points Dashboard
+  </footer>
+
+</div>
+
+<script>
+  function openTab(tabId, button) {
+    document.querySelectorAll('.tab-content').forEach(function(tab) {
+      tab.classList.remove('active');
+    });
+
+    document.querySelectorAll('.tab-button').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+
+    document.getElementById(tabId).classList.add('active');
+    button.classList.add('active');
+  }
+
+  function lookupPoints() {
+    const emailInput = document.getElementById('studentEmail');
+    const email = emailInput.value.trim().toLowerCase();
+    const results = document.getElementById('studentResults');
+
+    if (!/^[^\s@]+@students\.katyisd\.org$/.test(email)) {
+      results.textContent =
+        'Please enter a valid @students.katyisd.org email address.';
+      return;
+    }
+
+    results.textContent =
+      'The secure points lookup has not been connected yet.';
+  }
+</script>
+
+</body>
+</html>
+
